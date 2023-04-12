@@ -11,7 +11,7 @@ import { Participant } from "../../components/Participant";
 import { styles } from "./styles";
 
 export function Home() {
-  const [participants, setParticipant] = useState<string[]>([]);
+  const [participants, setParticipants] = useState<string[]>([]);
   const [participantName, setParticipantName] = useState("");
 
   function handleParticipantAdd() {
@@ -22,14 +22,14 @@ export function Home() {
       );
     }
 
-    setParticipant((prevState) => [...prevState, participantName]);
+    setParticipants((prevState) => [...prevState, participantName]);
     setParticipantName("");
   }
   function handleParticipantRemove(name: string) {
-    Alert.alert("Remover", `Remover o participante ${name}`, [
+    Alert.alert("Remover", `Remover o participante ${name}?`, [
       {
         text: "Sim",
-        onPress: () => Alert.alert("Deletado!"),
+        onPress: () => setParticipants(prevState => prevState.filter(participant => participant !== name)),
       },
       {
         text: "Não",
@@ -79,7 +79,7 @@ export function Home() {
           </Text>
         )}
       />
-      
+
     </View>
   );
 }
