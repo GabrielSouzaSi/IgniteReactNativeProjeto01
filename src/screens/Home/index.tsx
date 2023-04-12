@@ -11,18 +11,19 @@ import { Participant } from "../../components/Participant";
 import { styles } from "./styles";
 
 export function Home() {
-  const [participants, setParticipant] = useState(['João']);
+  const [participants, setParticipant] = useState<string[]>([]);
+  const [participantName, setParticipantName] = useState("");
 
   function handleParticipantAdd() {
-    if (participants.includes("Gabriel")) {
+    if (participants.includes(participantName)) {
       return Alert.alert(
         "Participante Existe",
         "Já existe um participante na lista com esse nome!"
       );
     }
 
-    setParticipant(prevState => [...prevState, 'Ana']);
-
+    setParticipant((prevState) => [...prevState, participantName]);
+    setParticipantName("");
   }
   function handleParticipantRemove(name: string) {
     Alert.alert("Remover", `Remover o participante ${name}`, [
@@ -40,18 +41,26 @@ export function Home() {
 
   return (
     <View style={styles.container}>
+
       <Text style={styles.eventName}>Nome do evento</Text>
       <Text style={styles.eventDate}>Segunda, 10 de Março de 2023.</Text>
+
       <View style={styles.form}>
+
         <TextInput
           style={styles.input}
           placeholder="Nome do participante"
           placeholderTextColor="#6B6B6B"
+          onChangeText={setParticipantName}
+          value={participantName}
         />
+
         <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
+
       </View>
+
       <FlatList
         data={participants}
         keyExtractor={(item) => item}
@@ -70,6 +79,7 @@ export function Home() {
           </Text>
         )}
       />
+      
     </View>
   );
 }
